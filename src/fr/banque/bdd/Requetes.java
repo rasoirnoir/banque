@@ -13,6 +13,7 @@ import fr.banque.models.*;
  */
 public abstract class Requetes {
 	
+	// CRUD TypeCompte
 	
 	public static ArrayList<TypeCompte> getAllTypeCompte() throws ClassNotFoundException,
 	SQLException{
@@ -47,6 +48,36 @@ public abstract class Requetes {
         }
         return typeCompte;
     }
+	
+	public static void addTypeCompte(TypeCompte typeCompte) throws SQLException {
+		Object[] params = {
+			
+			typeCompte.getCode(),
+			typeCompte.getIntitule()
+		};
+		String requete = "INSERT INTO typecompte VALUES (?, ?)";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	public static void deleteTypeCompte(TypeCompte typeCompte) throws SQLException {
+		Object[] params = {
+				typeCompte.getCode()
+		};
+		String requete = "DELETE FROM typecompte WHERE typecompte.code = ?";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	public static void updateTypeCompte(TypeCompte typeCompte) throws SQLException {
+		Object[] params = {
+				typeCompte.getCode(),
+				typeCompte.getIntitule()
+		};
+		String requete = "UPDATE typecompte SET code=?, intitule=?";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	
+	//Crud Titulaire
 	
 	public static ArrayList<Titulaire> getAllTitulaire() throws ClassNotFoundException,
 	SQLException{
@@ -89,7 +120,42 @@ public abstract class Requetes {
         }
         return titulaire;
     }
-
+	
+	public static void addTitulaire(Titulaire titulaire) throws SQLException {
+		Object[] params = {
+			
+			titulaire.getCode(),
+			titulaire.getPrenom(),
+			titulaire.getNom(),
+			titulaire.getAdresse(),
+			titulaire.getCodePostal(),
+		};
+		String requete = "INSERT INTO typecompte VALUES (?, ?)";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	public static void deleteTitulaire(Titulaire titulaire) throws SQLException {
+		Object[] params = {
+				titulaire.getCode()
+		};
+		String requete = "DELETE FROM titulaire WHERE titulaire.code = ?";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	public static void updateTitulaire(Titulaire titulaire) throws SQLException {
+		Object[] params = {
+				titulaire.getCode(),
+				titulaire.getPrenom(),
+				titulaire.getNom(),
+				titulaire.getAdresse(),
+				titulaire.getCodePostal(),
+		};
+		String requete = "UPDATE titulaire SET code=?, prenom=?, nom=?, adresse=?, codePostal=?";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	
+	//CRUD Compte
 
 	public static ArrayList<Compte> getAllComptes() throws SQLException{
 		ArrayList<Compte> comptes = new ArrayList<Compte>();
