@@ -15,8 +15,8 @@ public class Main {
 		try {
 			co = AccesBD.Connect("banque");
 			
-			
-      Titulaire t1 = Requetes.getTitulaireByCode(1000);
+						
+		  Titulaire t1 = Requetes.getTitulaireByCode(1000);
 		  System.out.println(t1);
 		  ArrayList<Compte> l1  = Requetes.getCompteOfTitulaire(t1);
 		  System.out.println(l1);

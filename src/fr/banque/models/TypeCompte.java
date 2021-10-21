@@ -34,7 +34,7 @@ public class TypeCompte {
 
 	@Override
 	public String toString() {
-		return "TypeCompte [code=" + code + ", intitule=" + intitule + "]";
+		return "TypeCompte n°" + code + "\n" + intitule + "\n";
 	}
 	
 	

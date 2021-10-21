@@ -99,8 +99,8 @@ public class Compte {
 
 	@Override
 	public String toString() {
-		return "Compte [numero=" + numero + ", typeCompte=" + typeCompte + ", titulaire=" + titulaire + ", solde="
-				+ solde + "]";
+		return "Compte n°" + numero + " " + typeCompte + 
+		"\ntitulaire : " + titulaire + " solde : "+ solde + "\n";
 	}
 	
 	
