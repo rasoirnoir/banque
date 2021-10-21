@@ -5,11 +5,9 @@ public class TypeCompte {
 	private int code;
 	private String intitule;
 	
-	public TypeCompte(int code, String intitule) {
+	public TypeCompte(String intitule) {
 		super();
-		this.code = code;
 		this.intitule = intitule;
-		
 	}
 	
 	public TypeCompte() {
