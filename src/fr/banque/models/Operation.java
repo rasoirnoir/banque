@@ -2,7 +2,12 @@ package fr.banque.models;
 
 import java.sql.Date;
 
-public class Operations {
+/**
+ * 
+ * @author William Noris
+ *
+ */
+public class Operation {
 
 	private int numero;
 	private Compte compte;
@@ -11,9 +16,9 @@ public class Operations {
 	private float montant;
 	private char typeOp;
 	
-	public Operations() {}
+	public Operation() {}
 
-	public Operations(int numero, Compte compte, Date date, String libelle, float montant, char typeOp) {
+	public Operation(int numero, Compte compte, Date date, String libelle, float montant, char typeOp) {
 		super();
 		this.numero = numero;
 		this.compte = compte;
