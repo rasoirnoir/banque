@@ -1,5 +1,10 @@
 package fr.banque.models;
 
+/**
+ * 
+ * @author William Noris
+ *
+ */
 public class Compte {
 
 	private int numero;
