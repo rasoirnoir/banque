@@ -11,6 +11,7 @@ public class Compte {
 	private TypeCompte typeCompte;
 	private Titulaire titulaire;
 	private float solde;
+	
 	public Compte(int numero, TypeCompte typeCompte, Titulaire titulaire, float solde) {
 		super();
 		this.numero = numero;

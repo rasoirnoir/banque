@@ -89,4 +89,33 @@ public abstract class Requetes {
 		return operation;
 	}
 	
+	public static void addCompte(Compte compte) throws SQLException {
+		Object[] params = {
+			compte.getNumero(),
+			compte.getTypeCompte(),
+			compte.getTitulaire(),
+			compte.getSolde()
+		};
+		String requete = "INSERT INTO compte VALUES (?, ?, ?, ?)";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	public static void deleteCompte(Compte compte) throws SQLException {
+		Object[] params = {
+				compte.getNumero()
+		};
+		String requete = "DELETE FROM compte WHERE compte.numero = ?";
+		AccesBD.executerUpdate(requete, params);
+	}
+	
+	public static void updateCompte(Compte compte) throws SQLException {
+		Object[] params = {
+				compte.getNumero(),
+				compte.getTypeCompte().getCode(),
+				compte.getTitulaire().getCode(),
+				compte.getSolde()
+		};
+		String requete = "UPDATE compte SET numero=?, codeTypeCompte=?, codeTitulaire=?, solde=?";
+		AccesBD.executerUpdate(requete, params);
+	}
 }
