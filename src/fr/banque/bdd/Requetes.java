@@ -51,11 +51,9 @@ public abstract class Requetes {
 	
 	public static void addTypeCompte(TypeCompte typeCompte) throws SQLException {
 		Object[] params = {
-			
-			typeCompte.getCode(),
 			typeCompte.getIntitule()
 		};
-		String requete = "INSERT INTO typecompte VALUES (?, ?)";
+		String requete = "INSERT INTO typecompte (intitule) VALUES (?);";
 		AccesBD.executerUpdate(requete, params);
 	}
 	
@@ -63,16 +61,16 @@ public abstract class Requetes {
 		Object[] params = {
 				typeCompte.getCode()
 		};
-		String requete = "DELETE FROM typecompte WHERE typecompte.code = ?";
+		String requete = "DELETE FROM typecompte WHERE typecompte.code = ?;";
 		AccesBD.executerUpdate(requete, params);
 	}
 	
 	public static void updateTypeCompte(TypeCompte typeCompte) throws SQLException {
 		Object[] params = {
-				typeCompte.getCode(),
-				typeCompte.getIntitule()
+				typeCompte.getIntitule(),
+				typeCompte.getCode()
 		};
-		String requete = "UPDATE typecompte SET code=?, intitule=?";
+		String requete = "UPDATE typecompte SET intitule=? WHERE code=?;";
 		AccesBD.executerUpdate(requete, params);
 	}
 	
@@ -130,7 +128,7 @@ public abstract class Requetes {
 			titulaire.getAdresse(),
 			titulaire.getCodePostal(),
 		};
-		String requete = "INSERT INTO typecompte VALUES (?, ?)";
+		String requete = "INSERT INTO titulaire VALUES (?, ?, ?, ?, ?)";
 		AccesBD.executerUpdate(requete, params);
 	}
 	
@@ -149,8 +147,9 @@ public abstract class Requetes {
 				titulaire.getNom(),
 				titulaire.getAdresse(),
 				titulaire.getCodePostal(),
+				titulaire.getCode()
 		};
-		String requete = "UPDATE titulaire SET code=?, prenom=?, nom=?, adresse=?, codePostal=?";
+		String requete = "UPDATE titulaire SET code=?, prenom=?, nom=?, adresse=?, codePostal=? WHERE titulaire.code=?";
 		AccesBD.executerUpdate(requete, params);
 	}
 	
@@ -281,9 +280,10 @@ public abstract class Requetes {
 				compte.getNumero(),
 				compte.getTypeCompte().getCode(),
 				compte.getTitulaire().getCode(),
-				compte.getSolde()
+				compte.getSolde(),
+				compte.getNumero()
 		};
-		String requete = "UPDATE compte SET numero=?, codeTypeCompte=?, codeTitulaire=?, solde=?";
+		String requete = "UPDATE compte SET numero=?, codeTypeCompte=?, codeTitulaire=?, solde=? WHERE numero=?";
 		AccesBD.executerUpdate(requete, params);
 	}
 	
