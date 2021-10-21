@@ -91,7 +91,7 @@ public abstract class Requetes {
     }
 
 
-	public static ArrayList<Compte> getAllComptes() throws SQLException{
+	public static ArrayList<Compte> getAllComptes() throws SQLException, ClassNotFoundException{
 		ArrayList<Compte> comptes = new ArrayList<Compte>();
 		
 		String requete = "SELECT * FROM compte;";
@@ -100,8 +100,8 @@ public abstract class Requetes {
 		while(results.next()) {
 			Compte compte = new Compte();
 			compte.setNumero(results.getInt("numero"));
-//			compte.setTypeCompte(result.getInt("codeTypeCompte"));
-//			compte.setTitulaire(result.getInt("codeTitulaire"));
+			compte.setTypeCompte(getTypeCompteByCode(results.getInt("codeTypeCompte")));
+			compte.setTitulaire(getTitulaireByCode(results.getInt("codeTitulaire")));
 			compte.setSolde(results.getFloat("solde"));
 			
 			comptes.add(compte);
@@ -193,5 +193,33 @@ public abstract class Requetes {
 		};
 		String requete = "UPDATE compte SET numero=?, codeTypeCompte=?, codeTitulaire=?, solde=?";
 		AccesBD.executerUpdate(requete, params);
+	}
+	
+	/**
+	 * Lister des opérations pour un compte sélectionné.
+	 * @param compte
+	 * @return Un ArrayList d'Operation
+	 * @throws SQLException
+	 */
+	public static ArrayList<Operation> getOperationsByCompte(Compte compte) throws SQLException{
+		ArrayList<Operation> operations = new ArrayList<Operation>();
+		Object[] params = {
+				compte.getNumero()
+		};
+		String requete = "SELECT * FROM operations WHERE operation.numeroCompte=?;";
+		ResultSet results = AccesBD.executerQuery(requete, params);
+		
+		while(results.next()) {
+			Operation op = new Operation();
+			op.setNumero(results.getInt("numero"));
+			op.setCompte(compte);
+			op.setDate(results.getDate("date"));
+			op.setLibelle(results.getString("libelle"));
+			op.setMontant(results.getFloat("montant"));
+			op.setTypeOp(results.getString("typeop").charAt(0));
+			
+			operations.add(op);
+		}
+		return operations;
 	}
 }
