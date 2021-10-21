@@ -202,7 +202,7 @@ public abstract class Requetes {
 		return comptes;
 	}
 	
-	public static ArrayList<Operation> getAllOperations() throws SQLException{
+	public static ArrayList<Operation> getAllOperations() throws Exception{
 		ArrayList<Operation> operations = new ArrayList<Operation>();
 		
 		String requete = "SELECT * FROM operations;";
@@ -216,14 +216,14 @@ public abstract class Requetes {
 			operation.setDate(results.getDate("date"));
 			operation.setLibelle(results.getString("libelle"));
 			operation.setMontant(results.getFloat("montant"));
-			operation.setTypeOp(results.getString("typeop").charAt(0));
+			operation.setTypeOp(TypeOp.fromString(results.getString("typeop")));
 			
 			operations.add(operation);
 		}
 		return operations;
 	}
 	
-	public static Compte getCompteByNumero(int numero) throws SQLException {
+	public static Compte getCompteByNumero(int numero) throws SQLException, ClassNotFoundException {
 		Compte compte = new Compte();
 		Object[] params = {numero};
 		String requete = "SELECT * FROM compte WHERE compte.numero = ?;";
@@ -232,14 +232,14 @@ public abstract class Requetes {
 		
 		while(results.next()) {
 			compte.setNumero(results.getInt("numero"));
-//			compte.setTypeCompte(result.getInt("codeTypeCompte"));
-//			compte.setTitulaire(result.getInt("codeTitulaire"));
+			compte.setTypeCompte(getTypeCompteByCode(results.getInt("codeTypeCompte")));
+			compte.setTitulaire(getTitulaireByCode(results.getInt("codeTitulaire")));
 			compte.setSolde(results.getFloat("solde"));
 		}
 		return compte;
 	}
 	
-	public static Operation getOperationByNumero(int numero) throws SQLException {
+	public static Operation getOperationByNumero(int numero) throws Exception {
 		Operation operation = new Operation();
 		Object[] params = {numero};
 		String requete = "SELECT * FROM operations WHERE operation.numero = ?";
@@ -252,7 +252,7 @@ public abstract class Requetes {
 			operation.setDate(results.getDate("date"));
 			operation.setLibelle(results.getString("libelle"));
 			operation.setMontant(results.getFloat("montant"));
-			operation.setTypeOp(results.getString("typeop").charAt(0));
+			operation.setTypeOp(TypeOp.fromString(results.getString("typeop")));
 		}
 		return operation;
 	}
@@ -291,14 +291,14 @@ public abstract class Requetes {
 	 * Lister des opérations pour un compte sélectionné.
 	 * @param compte
 	 * @return Un ArrayList d'Operation
-	 * @throws SQLException
+	 * @throws Exception 
 	 */
-	public static ArrayList<Operation> getOperationsByCompte(Compte compte) throws SQLException{
+	public static ArrayList<Operation> getOperationsByCompte(Compte compte) throws Exception{
 		ArrayList<Operation> operations = new ArrayList<Operation>();
 		Object[] params = {
 				compte.getNumero()
 		};
-		String requete = "SELECT * FROM operations WHERE operation.numeroCompte=?;";
+		String requete = "SELECT * FROM operations WHERE operations.numeroCompte=?;";
 		ResultSet results = AccesBD.executerQuery(requete, params);
 		
 		while(results.next()) {
@@ -308,11 +308,28 @@ public abstract class Requetes {
 			op.setDate(results.getDate("date"));
 			op.setLibelle(results.getString("libelle"));
 			op.setMontant(results.getFloat("montant"));
-			op.setTypeOp(results.getString("typeop").charAt(0));
+			op.setTypeOp(TypeOp.fromString(results.getString("typeop")));
 			
 			operations.add(op);
 		}
 		return operations;
+	}
+	
+	/**
+	 * Enregistrer une opération sur un compte (dépôt ou retrait).
+	 * @param operation
+	 * @throws SQLException
+	 */
+	public static void addOperation(Operation operation) throws SQLException {
+		Object[] params = {
+				operation.getCompte().getNumero(),
+				operation.getDate(),
+				operation.getLibelle(),
+				operation.getMontant(),
+				operation.getTypeOp().toString(),
+		};
+		String requete = "INSERT INTO operations (numeroCompte, date, libelle, montant, typeop) VALUES (?, ?, ?, ?, ?);";
+		AccesBD.executerUpdate(requete, params);
 	}
 }
 
