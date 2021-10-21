@@ -79,8 +79,9 @@ public class Titulaire {
 
 	@Override
 	public String toString() {
-		return "Titulaire n°" + code + "\n" + prenom + " " + nom
-				+ "\n" + adresse + " " + codePostal + "\n";
+		return String.format("%-11d%-20s%-20s%-32s%-5d", code, prenom, nom, adresse, codePostal);
+//		return "Titulaire n°" + code + "\n" + prenom + " " + nom
+//				+ "\n" + adresse + " " + codePostal + "\n";
 	}
 	
 	

@@ -99,8 +99,9 @@ public class Compte {
 
 	@Override
 	public String toString() {
-		return "Compte n°" + numero + " " + typeCompte + 
-		"\ntitulaire : " + titulaire + " solde : "+ solde + "\n";
+		return String.format("%-7d%-5d%-7d%-10.2f", numero, typeCompte.getCode(), titulaire.getCode(), solde);
+//		return "Compte n°" + numero + " " + typeCompte + 
+//		"\ntitulaire : " + titulaire + " solde : "+ solde + "\n";
 	}
 	
 	
