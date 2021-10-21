@@ -14,13 +14,12 @@ public class Operation {
 	private Date date;
 	private String libelle;
 	private float montant;
-	private char typeOp;
+	private TypeOp typeOp;
 	
 	public Operation() {}
 
-	public Operation(int numero, Compte compte, Date date, String libelle, float montant, char typeOp) {
+	public Operation(Compte compte, Date date, String libelle, float montant, TypeOp typeOp) {
 		super();
-		this.numero = numero;
 		this.compte = compte;
 		this.date = date;
 		this.libelle = libelle;
@@ -68,11 +67,11 @@ public class Operation {
 		this.montant = montant;
 	}
 
-	public char getTypeOp() {
+	public TypeOp getTypeOp() {
 		return typeOp;
 	}
 
-	public void setTypeOp(char typeOp) {
+	public void setTypeOp(TypeOp typeOp) {
 		this.typeOp = typeOp;
 	}
 
