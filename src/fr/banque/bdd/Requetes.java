@@ -107,7 +107,7 @@ public abstract class Requetes {
 	SQLException {
         Titulaire titulaire = new Titulaire();
         Object[] params = {code};
-        String requete = "SELECT * FROM titulaire WHERE titulaire.code = ?";
+        String requete = "SELECT * FROM titulaire WHERE titulaire.code=?" ;
         
         ResultSet result = AccesBD.executerQuery(requete, params);
         
@@ -153,6 +153,32 @@ public abstract class Requetes {
 		String requete = "UPDATE titulaire SET code=?, prenom=?, nom=?, adresse=?, codePostal=?";
 		AccesBD.executerUpdate(requete, params);
 	}
+	
+	//Lister les comptes pour un Titulaire
+	
+	public static ArrayList<Compte> getCompteOfTitulaire(Titulaire titulaire) throws SQLException, 
+	ClassNotFoundException{
+		ArrayList<Compte> comptes = new ArrayList<Compte>();
+		Object[] params = {
+				titulaire.getCode()
+		};
+		String requete = "SELECT * FROM compte WHERE compte.codeTitulaire=?;";
+		ResultSet results = AccesBD.executerQuery(requete, params);
+		
+		while(results.next()) {
+			Compte compte = new Compte();
+			
+			compte.setNumero(results.getInt("numero"));
+			compte.setTypeCompte(Requetes.getTypeCompteByCode(results.getInt("codeTypeCompte")));
+			compte.setTitulaire(Requetes.getTitulaireByCode(results.getInt("codeTitulaire")));
+			compte.setSolde(results.getFloat("solde"));
+						
+			comptes.add(compte);
+		}
+		return comptes;
+	}
+
+	// Bonus Virement
 	
 	
 	//CRUD Compte
@@ -289,3 +315,5 @@ public abstract class Requetes {
 		return operations;
 	}
 }
+
+
