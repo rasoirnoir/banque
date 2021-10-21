@@ -211,7 +211,7 @@ public abstract class Requetes {
 			Operation operation = new Operation();
 			
 			operation.setNumero(results.getInt("numero"));
-			operation.setCompte(null); //TODO
+			operation.setCompte(getCompteByNumero(results.getInt("numeroCompte")));
 			operation.setDate(results.getDate("date"));
 			operation.setLibelle(results.getString("libelle"));
 			operation.setMontant(results.getFloat("montant"));
@@ -259,8 +259,8 @@ public abstract class Requetes {
 	public static void addCompte(Compte compte) throws SQLException {
 		Object[] params = {
 			compte.getNumero(),
-			compte.getTypeCompte(),
-			compte.getTitulaire(),
+			compte.getTypeCompte().getCode(),
+			compte.getTitulaire().getCode(),
 			compte.getSolde()
 		};
 		String requete = "INSERT INTO compte VALUES (?, ?, ?, ?)";

@@ -77,8 +77,9 @@ public class Operation {
 
 	@Override
 	public String toString() {
-		return "Operation " + typeOp +  " n°" + numero + "\n compte : " + 
-	compte + " montant : " + montant +  "\ndate : " + date + " libelle : " + libelle + "\n";
+		return String.format("%-11d%-7d%-15s%-30s%-11.2f%-2s", numero, compte.getNumero(), date.toString(), libelle, montant, typeOp);
+//		return "Operation " + typeOp +  " n°" + numero + "\n compte : " + 
+//	compte + " montant : " + montant +  "\ndate : " + date + " libelle : " + libelle + "\n";
 	}
 	
 }
