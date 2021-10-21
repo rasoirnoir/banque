@@ -79,8 +79,8 @@ public class Titulaire {
 
 	@Override
 	public String toString() {
-		return "Titulaire [code=" + code + ", prenom=" + prenom + ", nom=" + nom
-				+ ", adresse=" + adresse + ", codePostal=" + codePostal + "]";
+		return "Titulaire n°" + code + "\n" + prenom + " " + nom
+				+ "\n" + adresse + " " + codePostal + "\n";
 	}
 	
 	

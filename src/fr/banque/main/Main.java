@@ -15,7 +15,7 @@ public class Main {
 		try {
 			co = AccesBD.Connect("banque");
 			
-			
+
 			TypeCompte type1 = new TypeCompte("Compte Génial.");
 			Requetes.addTypeCompte(type1);
 			System.out.println(Requetes.getAllTypeCompte());
