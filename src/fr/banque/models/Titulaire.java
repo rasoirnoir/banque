@@ -1,19 +1,18 @@
 package fr.banque.models;
+import java.lang.String;
 //sana
 
 public class Titulaire {
 	private int code;
-	private String intitule;
 	private String prenom;
 	private String nom;
 	private String adresse;
 	private int codePostal;
 	
 	
-	public Titulaire(int code, String intitule, String prenom, String nom, String adresse, int codePostal) {
+	public Titulaire(int code, String prenom, String nom, String adresse, int codePostal) {
 		super();
 		this.code = code;
-		this.intitule = intitule;
 		this.prenom = prenom;
 		this.nom = nom;
 		this.adresse = adresse;
@@ -36,14 +35,6 @@ public class Titulaire {
 	}
 
 
-	public String getIntitule() {
-		return intitule;
-	}
-
-
-	public void setIntitule(String intitule) {
-		this.intitule = intitule;
-	}
 
 
 	public String getPrenom() {
@@ -88,7 +79,7 @@ public class Titulaire {
 
 	@Override
 	public String toString() {
-		return "Titulaire [code=" + code + ", intitule=" + intitule + ", prenom=" + prenom + ", nom=" + nom
+		return "Titulaire [code=" + code + ", prenom=" + prenom + ", nom=" + nom
 				+ ", adresse=" + adresse + ", codePostal=" + codePostal + "]";
 	}
 	
