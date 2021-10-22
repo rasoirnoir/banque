@@ -14,7 +14,7 @@ public class AccesBD {
 
 	private static String DB_URL = "";
 	private static final String DB_USER = "root";
-	private static final String DB_PASSWORD = "password";
+	private static final String DB_PASSWORD = "MdpPandore2";
 	private static Connection connexion = null;
 
 	/**
@@ -200,14 +200,14 @@ public class AccesBD {
 	}
 	
 	
-	public static void transactionUpdate(String[] requetes, Object[][] params) throws SQLException {
+	public static void transactionUpdate(String[] requetes, ArrayList<Object[]> params) throws SQLException {
 		connexion.setAutoCommit(false);
 		Savepoint save = connexion.setSavepoint();
 		try {
 			ArrayList<PreparedStatement> statements = new ArrayList<PreparedStatement>();
 			for(int i = 0; i < requetes.length; i++) {
 				PreparedStatement st = connexion.prepareStatement(requetes[i]);
-				Object[] tabParam = params[i];
+				Object[] tabParam = params.get(i);
 				for (int j = 0; j < tabParam.length; j++) {
 					st.setObject(j + 1,tabParam[j]);
 				}

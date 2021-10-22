@@ -167,6 +167,22 @@ public class Main {
 			System.out.println(compte2);
 			System.out.println();
 			
+			
+			System.out.println("Ordre de virement :");
+			Compte compte3 = Requetes.getCompteByNumero(10003);
+			Compte compte4 = Requetes.getCompteByNumero(10005);
+			System.out.println(compte4);
+			System.out.println(compte3);
+			System.out.println("-------------------");
+			Requetes.virement(compte4, compte3, 50);
+			compte3 = Requetes.getCompteByNumero(compte3.getNumero());
+			compte4 = Requetes.getCompteByNumero(compte4.getNumero());
+			System.out.println(compte4);
+			System.out.println(compte3);
+			System.out.println();
+			
+			
+			
 		}		
 		catch(Exception e) {
 			System.out.println("Erreur dans la main : " + e.getMessage());
