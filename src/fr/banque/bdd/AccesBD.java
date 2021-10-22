@@ -6,13 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Savepoint;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class AccesBD {
 
 	private static String DB_URL = "";
 	private static final String DB_USER = "root";
-	private static final String DB_PASSWORD = "MdpPandore2";
+	private static final String DB_PASSWORD = "password";
 	private static Connection connexion = null;
 
 	/**
@@ -48,6 +50,7 @@ public class AccesBD {
 	public static ResultSet executerQuery(String requete) throws SQLException
 
 	{
+		connexion.setAutoCommit(true);
 		/*
 		 * On déclare un objet de type Statement que l'on nomme instruction. Cet objet
 		 * soumet la requête à la base de données dans MySQL. On déclare un objet de
@@ -92,17 +95,20 @@ public class AccesBD {
 			 * contient le résultat de l'exécution de la requête.
 			 */
 			resultat = statement.executeQuery(requete);
-			connexion.commit();
 
 		} catch (SQLException sqle) {
 			System.out.println("Problème dans la requête SQL !");
 			sqle.printStackTrace();
+		}
+		finally {
+			connexion.setAutoCommit(false);
 		}
 		return resultat; // retourne un ResultSet
 	}
 
 	public static ResultSet executerQuery(String requete, Object[] parametres) throws SQLException {
 		PreparedStatement statement = null;
+		connexion.setAutoCommit(true);
 		ResultSet resultat = null;
 		try {
 
@@ -116,7 +122,9 @@ public class AccesBD {
 			System.out.println("Problème dans la requête SQL !");
 			sqle.printStackTrace();
 		}
-		connexion.commit();
+		finally {
+			connexion.setAutoCommit(false);
+		}
 		return resultat;
 	}
 
@@ -130,6 +138,7 @@ public class AccesBD {
 
 	{
 		Statement statement = null;
+		connexion.setAutoCommit(true);
 		try {
 
 			statement = connexion.createStatement();
@@ -150,7 +159,7 @@ public class AccesBD {
 			System.out.println("Problème dans la requête SQL !");
 			sqle.printStackTrace();
 		} finally {
-
+			connexion.setAutoCommit(false);
 			statement.close();
 			connexion.close();
 
@@ -159,6 +168,7 @@ public class AccesBD {
 	}
 
 	public static void executerUpdate(String requete, Object[] params) throws SQLException {
+		connexion.setAutoCommit(true);
 		PreparedStatement statement = null;
 		try {
 
@@ -168,7 +178,6 @@ public class AccesBD {
 				statement.setObject(i + 1, params[i]);
 			}
 			int i = statement.executeUpdate();
-			connexion.commit();
 
 			if (i == 1) // on affiche un message d'information sur l'opération pour le plaisir !
 
@@ -185,8 +194,34 @@ public class AccesBD {
 			System.out.println("Problème dans la requête SQL !");
 			sqle.printStackTrace();
 		} finally {
-
+			connexion.setAutoCommit(false);
 			statement.close();
+		}
+	}
+	
+	
+	public static void transactionUpdate(String[] requetes, Object[][] params) throws SQLException {
+		connexion.setAutoCommit(false);
+		Savepoint save = connexion.setSavepoint();
+		try {
+			ArrayList<PreparedStatement> statements = new ArrayList<PreparedStatement>();
+			for(int i = 0; i < requetes.length; i++) {
+				PreparedStatement st = connexion.prepareStatement(requetes[i]);
+				Object[] tabParam = params[i];
+				for (int j = 0; j < tabParam.length; j++) {
+					st.setObject(j + 1,tabParam[j]);
+				}
+				statements.add(st);
+			}
+
+			for(PreparedStatement statement : statements) {
+				statement.executeUpdate();
+			}
+
+			connexion.commit();
+		}
+		catch(SQLException sqlE) {
+			connexion.rollback(save);
 		}
 	}
 
