@@ -72,6 +72,7 @@ public class Compte {
 		try {
 			Requetes.addOperation(ope);
 			this.solde += montant;
+			Requetes.updateCompte(this);
 		}
 		catch(SQLException sqlE) {
 			System.out.println("Erreur lors du depôt. Operation annulée.");
@@ -84,16 +85,16 @@ public class Compte {
 	 */
 	public void retrait(float montant, String libelle) {
 		Operation ope = new Operation(this, Date.valueOf(LocalDate.now()), libelle, montant, TypeOp.RETRAIT);
-		try {
-			if(montant > this.getSolde()) throw new Exception("Solde insuffisant. Operation annulée.");
-			Requetes.addOperation(ope);
-			this.solde -= montant;
-		}
-		catch(SQLException sqlE) {
-			System.out.println("Erreur lors du retait. Operation annulée.");
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+
+		if(montant <= this.getSolde()) {
+			try {
+				Requetes.addOperation(ope);
+				this.solde -= montant;
+				Requetes.updateCompte(this);
+			}
+			catch(SQLException sqlEx) {
+				System.out.println("Erreur lors du retait. Operation annulée.");
+			}
 		}
 	}
 
