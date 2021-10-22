@@ -19,8 +19,9 @@ public class AccesBD {
 	 * Permet de se connecter à la base de données
 	 * 
 	 * @return
+	 * @throws SQLException 
 	 */
-	public static Connection Connect(String nomBDD) {
+	public static Connection Connect(String nomBDD) throws SQLException {
 		setDB_URL(nomBDD);
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -33,6 +34,8 @@ public class AccesBD {
 			System.out.println("Problème de connexion à la base :\n" + sqlE);
 			System.exit(2);
 		}
+		
+		connexion.setAutoCommit(false);
 		return connexion;
 	}
 
