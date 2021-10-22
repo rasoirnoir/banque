@@ -32,7 +32,8 @@ public class TypeCompte {
 
 	@Override
 	public String toString() {
-		return "TypeCompte n°" + code + "\n" + intitule + "\n";
+		return String.format("%-10d%-25s", code, intitule);
+//		return "TypeCompte n°" + code + "\n" + intitule + "\n";
 	}
 	
 	
