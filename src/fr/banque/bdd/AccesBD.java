@@ -34,7 +34,6 @@ public class AccesBD {
 			System.out.println("Problème de connexion à la base :\n" + sqlE);
 			System.exit(2);
 		}
-		
 		connexion.setAutoCommit(false);
 		return connexion;
 	}
@@ -93,6 +92,7 @@ public class AccesBD {
 			 * contient le résultat de l'exécution de la requête.
 			 */
 			resultat = statement.executeQuery(requete);
+			connexion.commit();
 
 		} catch (SQLException sqle) {
 			System.out.println("Problème dans la requête SQL !");
@@ -101,7 +101,7 @@ public class AccesBD {
 		return resultat; // retourne un ResultSet
 	}
 
-	public static ResultSet executerQuery(String requete, Object[] parametres) {
+	public static ResultSet executerQuery(String requete, Object[] parametres) throws SQLException {
 		PreparedStatement statement = null;
 		ResultSet resultat = null;
 		try {
@@ -116,6 +116,7 @@ public class AccesBD {
 			System.out.println("Problème dans la requête SQL !");
 			sqle.printStackTrace();
 		}
+		connexion.commit();
 		return resultat;
 	}
 
@@ -134,6 +135,7 @@ public class AccesBD {
 			statement = connexion.createStatement();
 
 			int i = statement.executeUpdate(requete);
+			connexion.commit();
 
 			if (i == 1) // on affiche un message d'information sur l'opération pour le plaisir !
 
@@ -142,7 +144,6 @@ public class AccesBD {
 			} else {
 				System.out.println("L'opération a échoué !");
 			}
-
 		}
 
 		catch (SQLException sqle) {
@@ -167,6 +168,7 @@ public class AccesBD {
 				statement.setObject(i + 1, params[i]);
 			}
 			int i = statement.executeUpdate();
+			connexion.commit();
 
 			if (i == 1) // on affiche un message d'information sur l'opération pour le plaisir !
 

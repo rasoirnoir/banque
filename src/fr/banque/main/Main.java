@@ -123,6 +123,49 @@ public class Main {
 			System.out.println();
 	
 			
+			System.out.println("Liste des opérations pour le compte :");
+			Compte compte2 = Requetes.getCompteByNumero(10005);
+			System.out.println(compte2);
+			System.out.println("-------------------------------------");
+			ArrayList<Operation> opesCpt2 = Requetes.getOperationsByCompte(compte2);
+			for (Operation opCpt2 : opesCpt2) {
+				System.out.println(opCpt2);
+			}
+			System.out.println();
+			
+			System.out.println("Liste des comptes du titulaire :");
+			Titulaire titu2 = Requetes.getTitulaireByCode(1002);
+			System.out.println(titu2);
+			System.out.println("--------------------------------");
+			ArrayList<Compte> cptsTitu2 = Requetes.getCompteOfTitulaire(titu2);
+			for(Compte cptTitu2 : cptsTitu2){
+				System.out.println(cptTitu2);
+			}
+			System.out.println();
+			
+			System.out.println("Depôt sur le compte :");
+			System.out.println(compte2);
+			System.out.println("---------------------");
+			compte2.depot(1000, "Indemnités");
+			compte2 = Requetes.getCompteByNumero(compte2.getNumero());
+			System.out.println(compte2);
+			System.out.println();
+			
+			System.out.println("Retrait sur le compte :");
+			System.out.println(compte2);
+			System.out.println("-----------------------");
+			compte2.retrait(500, "Cadeau de Noël");
+			compte2 = Requetes.getCompteByNumero(compte2.getNumero());
+			System.out.println(compte2);
+			System.out.println();
+			
+			System.out.println("Enorme retrait sur le compte :");
+			System.out.println(compte2);
+			System.out.println("------------------------------");
+			compte2.retrait(500000, "Achat d'une maison");
+			compte2 = Requetes.getCompteByNumero(compte2.getNumero());
+			System.out.println(compte2);
+			System.out.println();
 			
 		}		
 		catch(Exception e) {
