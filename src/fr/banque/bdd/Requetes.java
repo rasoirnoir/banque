@@ -3,9 +3,9 @@ package fr.banque.bdd;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import fr.banque.models.*;
-
+import java.sql.Date;
+import java.time.LocalDate;
 /**
  * 
  * @author Sana, William
@@ -179,7 +179,56 @@ public abstract class Requetes {
 
 	// Bonus Virement
 	
+	public static void virement(Compte compteDebit, Compte compteCredit, float montant) throws SQLException {
+		
+		String requeteDebit = "UPDATE compte SET solde = ? WHERE numero=?;";
+		String opDebit = "INSERT INTO operations (numeroCompte, date, libelle, montant, typeop) VALUES (?, ?, ?, ?, ?);";
+		
+		String requeteCredit = "UPDATE compte SET solde = ? WHERE numero=?;";
+		String opCredit= "INSERT INTO operations (numeroCompte, date, libelle, montant, typeop) VALUES (?, ?, ?, ?, ?);";
+		
+		Object[] paramRD = {
+				compteDebit.getSolde() - montant,
+				compteDebit.getNumero()
+		};
+		Object[] paramOD = {
+			compteDebit.getNumero(),
+			Date.valueOf(LocalDate.now()),
+			"virement",
+			montant,
+			TypeOp.RETRAIT.toString()
+		};
+		
+		Object[] paramRC = {
+				compteCredit.getSolde() + montant,
+				compteCredit.getNumero()
+		};
+		Object[] paramOC = {
+			compteCredit.getNumero(),
+			Date.valueOf(LocalDate.now()),
+			"virement",
+			montant,
+			TypeOp.DEPOT.toString()
+		};
+		
+		ArrayList<Object[]> params = new ArrayList<Object[]>();
+		params.add(paramRD);
+		params.add(paramOD);
+		params.add(paramRC);
+		params.add(paramOC);
+	
+		
+		
+		String[] requete = {
+			requeteDebit,
+			opDebit,
+			requeteCredit,
+			opCredit
+		};
+					
 
+		AccesBD.transactionUpdate(requete, params);
+	}
 	
 	//CRUD Compte
 
